@@ -9,8 +9,13 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v4
-      - name: Install dependencies
-        run: npm ci
+      - name: Install dependencies (with lockfile check)
+        run: |
+          if [ ! -f package-lock.json ]; then
+            echo "⚠️ Aucun package-lock.json trouvé. Exécutez 'npm install' localement et committez le fichier."
+            exit 1
+          fi
+          npm ci
       - name: Lint code
         run: npm run lint
       - name: Test code
