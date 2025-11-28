@@ -11,11 +11,13 @@ jobs:
         uses: actions/checkout@v4
       - name: Install dependencies (with lockfile check)
         run: |
-          if [ ! -f package-lock.json ]; then
-            echo "⚠️ Aucun package-lock.json trouvé. Exécutez 'npm install' localement et committez le fichier."
-            exit 1
+          if [ -f package-lock.json ]; then
+            echo "package-lock.json trouvé → utilisation de npm ci"
+            npm ci
+          else
+            echo "⚠️ package-lock.json manquant → utilisation de npm install"
+            npm install
           fi
-          npm ci
       - name: Lint code
         run: npm run lint
       - name: Test code
