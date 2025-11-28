@@ -10,9 +10,9 @@ jobs:
       - name: Get code
         uses: actions/checkout@v4
       - name: Install dependencies (with lockfile check)
+        working-directory: ./frontend
         run: |
           if [ -f package-lock.json ]; then
-            echo "package-lock.json trouvé → utilisation de npm ci"
             npm ci
           else
             echo "⚠️ package-lock.json manquant → utilisation de npm install"
